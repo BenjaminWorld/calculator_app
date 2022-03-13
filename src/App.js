@@ -16,7 +16,9 @@ export const ACTIONS = {
 function reducer(state, { type, payload }) {
   switch(type) {
 
+    // here is the case for adding numerical digits
     case ACTIONS.ADD_DIGIT:
+      // to overwrite the computed result in the previous operation, instead of adding new digits to the result
       if (state.overwrite) {
         return {
           ...state,
@@ -39,6 +41,7 @@ function reducer(state, { type, payload }) {
         currentOperand: `${state.currentOperand || ""}${payload.digit}`,
       }
     
+      // Action for picking calculating operations
     case ACTIONS.CHOOSE_OPERATION:
         if (state.previousOperand == null && state.currentOperand == null) {
           return state
@@ -64,6 +67,7 @@ function reducer(state, { type, payload }) {
           currentOperand: null
         }
 
+    // AC function in the calculator 
     case ACTIONS.CLEAR:
       return {}
 
@@ -80,12 +84,14 @@ function reducer(state, { type, payload }) {
           ...state,
           currentOperand: null
       }
+      // default delete operation
       return{
         ...state,
         currentOperand: state.currentOperand.slice(0,-1)
       }
 
     case ACTIONS.EVAULATE:
+      // if either currentOperand, previousOperand, or operation is null, the calculation is unable to execute
       if (
         state.currentOperand == null ||
         state.previousOperand == null ||
@@ -127,14 +133,13 @@ function evaulate({ currentOperand, previousOperand, operation }) {
       break 
   }
 
-  return computation.toString()
+  return computation.toString() 
 }
 
+// I used the useReducer function for the calculator logic, and the state is divided into 3 variables: currentOperand, previousOperand, and operation
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer,{})
   
-  // const abc = () => dispatch({ type: ACTIONS.CLEAR })
-
   return (
     <div className='calculator-grid'>
 
@@ -144,7 +149,7 @@ function App() {
         </div>
  
         <button className='span-two' onClick={() => dispatch({ type: ACTIONS.CLEAR })}>AC</button>
-        <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>DEL</button>
+        <button className="colourless" onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>DEL</button>
         <OperationButton operation="÷" dispatch={dispatch} ></OperationButton>
         <DigitButton digit="1" dispatch={dispatch}></DigitButton>
         <DigitButton digit="2" dispatch={dispatch}></DigitButton>

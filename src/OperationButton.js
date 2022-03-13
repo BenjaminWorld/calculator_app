@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function OperationButton({dispatch, operation}) {
     return (
-    <button onClick={() => dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation }})}>
+    <button className="colourless" onClick={() => dispatch({ type: ACTIONS.CHOOSE_OPERATION, payload: { operation }})}>
         {operation}
     </button>
     )
